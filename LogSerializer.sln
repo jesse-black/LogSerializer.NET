@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{17C3BDCA-8BDF-4405-8F73-AC64947C99DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogSerializer", "src\LogSerializer\LogSerializer.csproj", "{83805DF6-13DF-4210-B5EE-1E8679AB2627}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{77983F8F-A2D3-4222-B269-5CF6A45E520E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogSerializer.Tests", "test\LogSerializer.Tests\LogSerializer.Tests.csproj", "{0209C6E0-7035-4C9C-82BC-E842B6023BB2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83805DF6-13DF-4210-B5EE-1E8679AB2627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83805DF6-13DF-4210-B5EE-1E8679AB2627}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83805DF6-13DF-4210-B5EE-1E8679AB2627}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83805DF6-13DF-4210-B5EE-1E8679AB2627}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0209C6E0-7035-4C9C-82BC-E842B6023BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0209C6E0-7035-4C9C-82BC-E842B6023BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0209C6E0-7035-4C9C-82BC-E842B6023BB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0209C6E0-7035-4C9C-82BC-E842B6023BB2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{83805DF6-13DF-4210-B5EE-1E8679AB2627} = {17C3BDCA-8BDF-4405-8F73-AC64947C99DE}
+		{0209C6E0-7035-4C9C-82BC-E842B6023BB2} = {77983F8F-A2D3-4222-B269-5CF6A45E520E}
+	EndGlobalSection
+EndGlobal
