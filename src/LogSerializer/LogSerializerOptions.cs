@@ -45,12 +45,13 @@ public class LogSerializerOptions
   public List<SensitiveDataProperty> SensitiveDataProperties { get; } = new();
 
   /// <summary>
-  /// Gets or sets the JSON serializer options.
+  /// Gets or sets the JSON serializer options. Note that a copy will be made of
+  /// the options when setting this property.
   /// </summary>
   public JsonSerializerOptions JsonSerializerOptions
   {
     get { return jsonSerializerOptions; }
-    set { jsonSerializerOptions = InitJsonSerializerOptions(value); }
+    set { jsonSerializerOptions = InitJsonSerializerOptions(new JsonSerializerOptions(value)); }
   }
 
   private JsonSerializerOptions InitJsonSerializerOptions(JsonSerializerOptions options)
