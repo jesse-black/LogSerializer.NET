@@ -4,31 +4,56 @@ using System.Text.Json.Serialization.Metadata;
 
 namespace LogSerializer;
 
+/// <summary>
+/// Represents the options for serializing objects for logging.
+/// </summary>
 public class LogSerializerOptions
 {
   private JsonSerializerOptions jsonSerializerOptions;
+
+  /// <summary>
+  /// Initializes a new instance of the <see cref="LogSerializerOptions"/> class.
+  /// </summary>
   public LogSerializerOptions()
   {
-    jsonSerializerOptions = InitializeJsonSerializerOptions(new()
+    jsonSerializerOptions = InitJsonSerializerOptions(new()
     {
       WriteIndented = true,
       Converters = { new JsonStringEnumConverter() }
     });
   }
+
+  /// <summary>
+  /// Initializes a new instance of the <see cref="LogSerializerOptions"/> class with the specified options.
+  /// </summary>
+  /// <param name="options">The options to copy.</param>
   public LogSerializerOptions(LogSerializerOptions options)
   {
     MaskText = options.MaskText;
     SensitiveDataProperties.AddRange(options.SensitiveDataProperties);
-    jsonSerializerOptions = InitializeJsonSerializerOptions(new JsonSerializerOptions(options.JsonSerializerOptions));
+    jsonSerializerOptions = InitJsonSerializerOptions(new JsonSerializerOptions(options.JsonSerializerOptions));
   }
+
+  /// <summary>
+  /// Gets or sets the text used to mask sensitive data in logs.
+  /// </summary>
   public string MaskText { get; set; } = "*****";
-  public List<Property> SensitiveDataProperties { get; } = new();
+
+  /// <summary>
+  /// Gets the list of sensitive data properties.
+  /// </summary>
+  public List<SensitiveDataProperty> SensitiveDataProperties { get; } = new();
+
+  /// <summary>
+  /// Gets or sets the JSON serializer options.
+  /// </summary>
   public JsonSerializerOptions JsonSerializerOptions
   {
     get { return jsonSerializerOptions; }
-    set { jsonSerializerOptions = InitializeJsonSerializerOptions(value); }
+    set { jsonSerializerOptions = InitJsonSerializerOptions(value); }
   }
-  private JsonSerializerOptions InitializeJsonSerializerOptions(JsonSerializerOptions options)
+
+  private JsonSerializerOptions InitJsonSerializerOptions(JsonSerializerOptions options)
   {
     if (options.TypeInfoResolver is not DefaultJsonTypeInfoResolver typeInfoResolver)
     {
@@ -39,4 +64,11 @@ public class LogSerializerOptions
   }
 }
 
-public record Property(string? TypeName, string PropertyName);
+/// <summary>
+/// Identifies a property as sensitive data that should be masked out in logs.
+/// </summary>
+/// <param name="TypeName">The type name of the property. This can be the full
+/// name or only the type name. Using <c>null</c> here will match the property
+/// name on all types.</param>
+/// <param name="PropertyName">The name of the property.</param>
+public record SensitiveDataProperty(string? TypeName, string PropertyName);

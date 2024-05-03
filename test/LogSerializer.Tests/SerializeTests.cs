@@ -8,7 +8,7 @@ public class SerializeTests
 {
   public SerializeTests()
   {
-    LogSerializer.ConfigureDefaults(_ => { });
+    LogSerializer.Configure(_ => { });
   }
 
   [Fact]
@@ -60,7 +60,7 @@ public class SerializeTests
   {
     // Arrange
     var obj = new TestPerson { FirstName = "John", LastName = "Smith" };
-    LogSerializer.ConfigureDefaults(options => options.SensitiveDataProperties.Add(new(null, "LastName")));
+    LogSerializer.Configure(options => options.SensitiveDataProperties.Add(new(null, "LastName")));
 
     // Act
     var result = LogSerializer.Serialize(obj);
@@ -74,7 +74,7 @@ public class SerializeTests
   {
     // Arrange
     var obj = new TestPerson { FirstName = "John", LastName = "Smith" };
-    LogSerializer.ConfigureDefaults(options => options.SensitiveDataProperties.Add(new("TestPerson", "LastName")));
+    LogSerializer.Configure(options => options.SensitiveDataProperties.Add(new("TestPerson", "LastName")));
 
     // Act
     var result = LogSerializer.Serialize(obj);
@@ -88,7 +88,7 @@ public class SerializeTests
   {
     // Arrange
     var obj = new TestPerson { FirstName = "John", LastName = "Smith" };
-    LogSerializer.ConfigureDefaults(options => options.SensitiveDataProperties.Add(new("LogSerializer.Tests.TestPerson", "LastName")));
+    LogSerializer.Configure(options => options.SensitiveDataProperties.Add(new("LogSerializer.Tests.TestPerson", "LastName")));
 
     // Act
     var result = LogSerializer.Serialize(obj);
@@ -102,7 +102,7 @@ public class SerializeTests
   {
     // Arrange
     var obj = new TestPerson { FirstName = "John", LastName = "Smith" };
-    LogSerializer.ConfigureDefaults(options => options.SensitiveDataProperties.Add(new(null, "FullName")));
+    LogSerializer.Configure(options => options.SensitiveDataProperties.Add(new(null, "FullName")));
 
     // Act
     var result = LogSerializer.Serialize(obj);
@@ -116,7 +116,7 @@ public class SerializeTests
   {
     // Arrange
     var obj = new TestPerson { FirstName = "John", LastName = "Smith" };
-    LogSerializer.ConfigureDefaults(options => options.SensitiveDataProperties.Add(new("TestObject", "LastName")));
+    LogSerializer.Configure(options => options.SensitiveDataProperties.Add(new("TestObject", "LastName")));
 
     // Act
     var result = LogSerializer.Serialize(obj);
@@ -130,7 +130,7 @@ public class SerializeTests
   {
     // Arrange
     var obj = new TestPerson { FirstName = "John", LastName = "Smith" };
-    LogSerializer.ConfigureDefaults(options => options.JsonSerializerOptions = new JsonSerializerOptions
+    LogSerializer.Configure(options => options.JsonSerializerOptions = new JsonSerializerOptions
     {
       WriteIndented = false,
       PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower

@@ -4,17 +4,35 @@ using System.Text.Json.Serialization.Metadata;
 
 namespace LogSerializer;
 
+/// <summary>
+/// Provides methods for serializing and destructuring objects for logging, with
+/// properties marked as sensitive data masked out.
+/// </summary>
 public static class LogSerializer
 {
-  private static LogSerializerOptions defaultOptions = new LogSerializerOptions();
+  private static LogSerializerOptions defaultOptions = new();
 
+  /// <summary>
+  /// Serializes an object to a JSON string using the specified options.
+  /// </summary>
+  /// <typeparam name="T">The type of the object to serialize.</typeparam>
+  /// <param name="obj">The object to serialize.</param>
+  /// <param name="options">The serialization options. If not provided, the default options will be used.</param>
+  /// <returns>A JSON string representing the serialized object.</returns>
   public static string Serialize<T>(T obj, LogSerializerOptions? options = null)
   {
     options ??= defaultOptions;
     return JsonSerializer.Serialize(obj, options.JsonSerializerOptions);
   }
 
-  public static Dictionary<string, string?> Destructure<T>(T obj, LogSerializerOptions? options = null)
+  /// <summary>
+  /// Destructures an object into a dictionary of property names and values, using the specified options.
+  /// </summary>
+  /// <typeparam name="T">The type of the object to destructure.</typeparam>
+  /// <param name="obj">The object to destructure.</param>
+  /// <param name="options">The serialization options. If not provided, the default options will be used.</param>
+  /// <returns>A dictionary containing the property names and values of the destructured object.</returns>
+  public static Dictionary<string, string> Destructure<T>(T obj, LogSerializerOptions? options = null)
   {
     options ??= defaultOptions;
     return typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance)
@@ -26,10 +44,16 @@ public static class LogSerializer
               null => null,
               string s => p.IsSensitiveData(options) ? options.MaskText : s,
               object o => p.IsSensitiveData(options) ? Serialize(DefaultInstance(o.GetType()), options) : Serialize(o, options)
-            });
+            })
+        .Where(kv => kv.Value is not null)
+        .ToDictionary(kv => kv.Key, kv => kv.Value!);
   }
 
-  public static void ConfigureDefaults(Action<LogSerializerOptions> configure)
+  /// <summary>
+  /// Configures the default serialization options using the specified action.
+  /// </summary>
+  /// <param name="configure">An action that configures the default serialization options.</param>
+  public static void Configure(Action<LogSerializerOptions> configure)
   {
     defaultOptions = new();
     configure(defaultOptions);

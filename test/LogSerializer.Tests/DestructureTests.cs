@@ -7,11 +7,11 @@ public class DestructureTests
 {
   public DestructureTests()
   {
-    LogSerializer.ConfigureDefaults(_ => { });
+    LogSerializer.Configure(_ => { });
   }
 
   [Fact]
-  public void Destructure_WithNullProperty_ReturnsNullValue()
+  public void Destructure_WithNullProperty_ReturnsNoEntry()
   {
     // Arrange
     var obj = new NullableProperty { Baz = null };
@@ -20,9 +20,7 @@ public class DestructureTests
     var result = LogSerializer.Destructure(obj);
 
     // Assert
-    result.Should().BeEquivalentTo(new Dictionary<string, string?> {
-      { "Baz", null }
-    });
+    result.Should().BeEquivalentTo(new Dictionary<string, string>());
   }
 
   [Fact]
@@ -35,7 +33,7 @@ public class DestructureTests
     var result = LogSerializer.Destructure(obj);
 
     // Assert
-    result.Should().BeEquivalentTo(new Dictionary<string, string?> {
+    result.Should().BeEquivalentTo(new Dictionary<string, string> {
       { "FirstName", "*****" },
       { "LastName", "Smith" }
     });
@@ -55,7 +53,7 @@ public class DestructureTests
     var result = LogSerializer.Destructure(obj, options);
 
     // Assert
-    result.Should().BeEquivalentTo(new Dictionary<string, string?> {
+    result.Should().BeEquivalentTo(new Dictionary<string, string> {
       { "FirstName", "*****" },
       { "LastName", "*****" }
     });
@@ -66,13 +64,13 @@ public class DestructureTests
   {
     // Arrange
     var obj = new TestPerson { FirstName = "John", LastName = "Smith" };
-    LogSerializer.ConfigureDefaults(options => options.SensitiveDataProperties.Add(new(null, "LastName")));
+    LogSerializer.Configure(options => options.SensitiveDataProperties.Add(new(null, "LastName")));
 
     // Act
     var result = LogSerializer.Destructure(obj);
 
     // Assert
-    result.Should().BeEquivalentTo(new Dictionary<string, string?> {
+    result.Should().BeEquivalentTo(new Dictionary<string, string> {
       { "FirstName", "*****" },
       { "LastName", "*****" }
     });
@@ -88,7 +86,7 @@ public class DestructureTests
     var result = LogSerializer.Destructure(obj);
 
     // Assert
-    result.Should().BeEquivalentTo(new Dictionary<string, string?> {
+    result.Should().BeEquivalentTo(new Dictionary<string, string> {
       { "NestedObject", "{\r\n  \"Bar\": \"Foo\"\r\n}" }
     });
   }
@@ -98,13 +96,13 @@ public class DestructureTests
   {
     // Arrange
     var obj = new TestNestedObject { NestedObject = new DefaultConstructor { Bar = "Foo" } };
-    LogSerializer.ConfigureDefaults(options => options.SensitiveDataProperties.Add(new(null, "Bar")));
+    LogSerializer.Configure(options => options.SensitiveDataProperties.Add(new(null, "Bar")));
 
     // Act
     var result = LogSerializer.Destructure(obj);
 
     // Assert
-    result.Should().BeEquivalentTo(new Dictionary<string, string?> {
+    result.Should().BeEquivalentTo(new Dictionary<string, string> {
       { "NestedObject", "{\r\n  \"Bar\": \"*****\"\r\n}" }
     });
   }
@@ -119,7 +117,7 @@ public class DestructureTests
     var result = LogSerializer.Destructure(obj);
 
     // Assert
-    result.Should().BeEquivalentTo(new Dictionary<string, string?> {
+    result.Should().BeEquivalentTo(new Dictionary<string, string> {
       { "DefaultConstructor", "{\r\n  \"Bar\": null\r\n}" }
     });
   }
