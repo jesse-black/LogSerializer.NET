@@ -1,7 +1,7 @@
 using System.Text.Json;
 using FluentAssertions;
 
-namespace LogSerializer.Tests;
+namespace LogSerialization.Tests;
 
 [Collection("LogSerializer")]
 public class SerializeTests
@@ -88,7 +88,7 @@ public class SerializeTests
   {
     // Arrange
     var obj = new TestPerson { FirstName = "John", LastName = "Smith" };
-    LogSerializer.Configure(options => options.SensitiveDataProperties.Add(new("LogSerializer.Tests.TestPerson", "LastName")));
+    LogSerializer.Configure(options => options.SensitiveDataProperties.Add(new("LogSerialization.Tests.TestPerson", "LastName")));
 
     // Act
     var result = LogSerializer.Serialize(obj);

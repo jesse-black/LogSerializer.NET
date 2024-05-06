@@ -6,9 +6,10 @@
     <Nullable>enable</Nullable>
     <WarningsAsErrors>Nullable</WarningsAsErrors>
     <PackageId>LogSerializer</PackageId>
-    <Version>1.0.0-beta001</Version>
+    <Version>1.0.0-beta002</Version>
     <Authors>Jesse Black</Authors>
     <Copyright>Copyright 2024 Jesse Black</Copyright>
+    <Description>Serialize objects to JSON with sensitive data properties masked out for logging</Description>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/jesse-black/LogSerializer.NET</PackageProjectUrl>

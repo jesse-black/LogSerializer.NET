@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 
-namespace LogSerializer;
+namespace LogSerialization;
 
 /// <summary>
 /// Represents the options for serializing objects for logging.

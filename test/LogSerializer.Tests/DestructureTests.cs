@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-namespace LogSerializer.Tests;
+namespace LogSerialization.Tests;
 
 [Collection("LogSerializer")]
 public class DestructureTests

@@ -1,4 +1,4 @@
-namespace LogSerializer.Tests;
+namespace LogSerialization.Tests;
 
 public class TestPerson
 {

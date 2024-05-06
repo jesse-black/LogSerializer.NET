@@ -1,4 +1,4 @@
-﻿namespace LogSerializer;
+﻿namespace LogSerialization;
 
 /// <summary>
 /// Specifies that a property contains sensitive data that should be masked out when logging.
