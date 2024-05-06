@@ -130,7 +130,7 @@ public class SerializeTests
   {
     // Arrange
     var obj = new TestPerson { FirstName = "John", LastName = "Smith" };
-    LogSerializer.Configure(options => options.JsonSerializerOptions = new JsonSerializerOptions
+    LogSerializer.Configure(options => options.JsonSerializerOptions = new()
     {
       WriteIndented = false,
       PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower

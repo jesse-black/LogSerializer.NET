@@ -5,6 +5,20 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <WarningsAsErrors>Nullable</WarningsAsErrors>
+    <PackageId>LogSerializer</PackageId>
+    <Version>1.0.0-beta001</Version>
+    <Authors>Jesse Black</Authors>
+    <Copyright>Copyright 2024 Jesse Black</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/jesse-black/LogSerializer.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jesse-black/LogSerializer.NET.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>logging;telemetry;serialization;json;pii</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\"/>
+    <None Include="../../LICENSE" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 </Project>
