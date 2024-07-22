@@ -12,6 +12,19 @@ public class SerializeTests
   }
 
   [Fact]
+  public void Serialize_WithNullObject_ReturnsNullJson()
+  {
+    // Arrange
+    object? obj = null;
+
+    // Act
+    var result = LogSerializer.Serialize(obj);
+
+    // Assert
+    result.Should().Be("null");
+  }
+
+  [Fact]
   public void Serialize_WithNullProperty_ReturnsNullJson()
   {
     // Arrange
@@ -32,6 +45,32 @@ public class SerializeTests
 
     // Act
     var result = LogSerializer.Serialize(obj);
+
+    // Assert
+    result.Should().Be("{\r\n  \"FirstName\": \"*****\",\r\n  \"LastName\": \"Smith\"\r\n}");
+  }
+
+  [Fact]
+  public void Serialize_WithObject_ReturnsMaskedString()
+  {
+    // Arrange
+    object obj = new TestPerson { FirstName = "John", LastName = "Smith" };
+
+    // Act
+    var result = LogSerializer.Serialize(obj);
+
+    // Assert
+    result.Should().Be("{\r\n  \"FirstName\": \"*****\",\r\n  \"LastName\": \"Smith\"\r\n}");
+  }
+
+  [Fact]
+  public void Serialize_WithTypePassed_ReturnsMaskedString()
+  {
+    // Arrange
+    object obj = new TestPerson { FirstName = "John", LastName = "Smith" };
+
+    // Act
+    var result = LogSerializer.Serialize(obj, typeof(TestPerson));
 
     // Assert
     result.Should().Be("{\r\n  \"FirstName\": \"*****\",\r\n  \"LastName\": \"Smith\"\r\n}");

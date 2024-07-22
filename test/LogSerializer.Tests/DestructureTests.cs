@@ -11,6 +11,19 @@ public class DestructureTests
   }
 
   [Fact]
+  public void Destructure_WithNullObject_ReturnsNoEntry()
+  {
+    // Arrange
+    object? obj = null;
+
+    // Act
+    var result = LogSerializer.Destructure(obj);
+
+    // Assert
+    result.Should().BeEquivalentTo(new Dictionary<string, string>());
+  }
+
+  [Fact]
   public void Destructure_WithNullProperty_ReturnsNoEntry()
   {
     // Arrange
@@ -31,6 +44,38 @@ public class DestructureTests
 
     // Act
     var result = LogSerializer.Destructure(obj);
+
+    // Assert
+    result.Should().BeEquivalentTo(new Dictionary<string, string> {
+      { "FirstName", "*****" },
+      { "LastName", "Smith" }
+    });
+  }
+
+  [Fact]
+  public void Destructure_WithObject_ReturnsMaskedValue()
+  {
+    // Arrange
+    object obj = new TestPerson { FirstName = "John", LastName = "Smith" };
+
+    // Act
+    var result = LogSerializer.Destructure(obj);
+
+    // Assert
+    result.Should().BeEquivalentTo(new Dictionary<string, string> {
+      { "FirstName", "*****" },
+      { "LastName", "Smith" }
+    });
+  }
+
+  [Fact]
+  public void Destructure_WithTypePassed_ReturnsMaskedValue()
+  {
+    // Arrange
+    object obj = new TestPerson { FirstName = "John", LastName = "Smith" };
+
+    // Act
+    var result = LogSerializer.Destructure(obj, typeof(TestPerson));
 
     // Assert
     result.Should().BeEquivalentTo(new Dictionary<string, string> {

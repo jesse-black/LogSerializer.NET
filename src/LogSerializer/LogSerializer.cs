@@ -21,9 +21,33 @@ public static class LogSerializer
   /// <returns>A JSON string representing the serialized object.</returns>
   public static string Serialize<T>(T obj, LogSerializerOptions? options = null)
   {
-    options ??= defaultOptions;
-    return JsonSerializer.Serialize(obj, options.JsonSerializerOptions);
+    return Serialize(obj, typeof(T), options);
   }
+
+  /// <summary>
+  /// Serializes an object of the specified type to a JSON string using the specified options.
+  /// </summary>
+  /// <param name="obj">The object to serialize.</param>
+  /// <param name="type">The type of the object.</param>
+  /// <param name="options">The options to use for serialization (optional).</param>
+  /// <returns>A JSON string representing the serialized object.</returns>
+  public static string Serialize(object? obj, Type type, LogSerializerOptions? options = null)
+  {
+    options ??= defaultOptions;
+    return JsonSerializer.Serialize(obj, type, options.JsonSerializerOptions);
+  }
+
+  /// <summary>
+  /// Serializes an object into a string representation using the specified options.
+  /// </summary>
+  /// <param name="obj">The object to serialize.</param>
+  /// <param name="options">The serialization options (optional).</param>
+  /// <returns>A string representation of the serialized object.</returns>
+  public static string Serialize(object? obj, LogSerializerOptions? options = null)
+  {
+    return Serialize(obj, obj?.GetType() ?? typeof(object), options);
+  }
+
 
   /// <summary>
   /// Destructures an object into a dictionary of property names and values, using the specified options.
@@ -34,19 +58,43 @@ public static class LogSerializer
   /// <returns>A dictionary containing the property names and values of the destructured object.</returns>
   public static Dictionary<string, string> Destructure<T>(T obj, LogSerializerOptions? options = null)
   {
+    return Destructure(obj, typeof(T), options);
+  }
+
+  /// <summary>
+  /// Destructures an object into a dictionary of property names and their corresponding values.
+  /// </summary>
+  /// <param name="obj">The object to destructure.</param>
+  /// <param name="type">The type of the object.</param>
+  /// <param name="options">The optional serialization options.</param>
+  /// <returns>A dictionary containing the property names and their corresponding values.</returns>
+  public static Dictionary<string, string> Destructure(object? obj, Type type, LogSerializerOptions? options = null)
+  {
     options ??= defaultOptions;
-    return typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance)
-        .Where(p => p.CanRead)
-        .ToDictionary(
-            p => p.Name,
-            p => p.GetValue(obj) switch
-            {
-              null => null,
-              string s => p.IsSensitiveData(options) ? options.MaskText : s,
-              object o => p.IsSensitiveData(options) ? Serialize(DefaultInstance(o.GetType()), options) : Serialize(o, options)
-            })
-        .Where(kv => kv.Value is not null)
-        .ToDictionary(kv => kv.Key, kv => kv.Value!);
+    return type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+      .Where(p => p.CanRead)
+      .ToDictionary(
+          p => p.Name,
+          p => p.GetValue(obj) switch
+          {
+            null => null,
+            string s => p.IsSensitiveData(options) ? options.MaskText : s,
+            object o => p.IsSensitiveData(options) ? Serialize(DefaultInstance(o.GetType()), options) : Serialize(o, options)
+          })
+      .Where(kv => kv.Value is not null)
+      .ToDictionary(kv => kv.Key, kv => kv.Value!);
+  }
+
+
+  /// <summary>
+  /// Destructures an object into a dictionary of string key-value pairs.
+  /// </summary>
+  /// <param name="obj">The object to destructure.</param>
+  /// <param name="options">The options for customizing the destructure process (optional).</param>
+  /// <returns>A dictionary containing the destructured object.</returns>
+  public static Dictionary<string, string> Destructure(object? obj, LogSerializerOptions? options = null)
+  {
+    return Destructure(obj, obj?.GetType() ?? typeof(object), options);
   }
 
   /// <summary>
